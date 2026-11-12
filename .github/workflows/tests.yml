@@ -36,11 +36,19 @@ jobs:
           (cd examples && sha256sum -c SHA256SUMS)
       - name: Tests and complete synthetic CLI examples
         run: python -m pytest tests -q --junitxml="${{ runner.temp }}/tests.xml"
+      - name: Real chr21 download-and-run demonstration
+        if: matrix.python-version == '3.12'
+        run: python scripts/run_chr21_demo.py --out demo_output/chr21
+      - name: Import installed libraries outside the checkout
+        run: |
+          cd "$RUNNER_TEMP"
+          python -c 'import slotted_em, tracete, tracete_lm; print(slotted_em.__file__)'
+
       - name: Report test failures
         if: failure()
         run: |
           python - <<'PYTEST_REPORT'
-          import os
+          import os, json
           from pathlib import Path
           import xml.etree.ElementTree as ET
           report = Path(os.environ['RUNNER_TEMP']) / 'tests.xml'
@@ -49,14 +57,18 @@ jobs:
                   for issue in list(case.findall('failure')) + list(case.findall('error')):
                       text = case.get('name', '') + ': ' + (issue.text or issue.get('message', ''))[-3500:]
                       print('::error::' + text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'))
+          receipt = Path('demo_output/chr21/intermediates/demo_receipt.json')
+          if receipt.exists():
+              result = json.loads(receipt.read_text())
+              message = result.get('error', '')
+              for stage, info in result.get('stages', {}).items():
+                  if info.get('returncode'):
+                      log = receipt.parent / (stage + '.log')
+                      if log.exists():
+                          message += '\n' + log.read_text()[-2500:]
+              if message:
+                  print('::error::' + message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'))
           PYTEST_REPORT
-      - name: Real chr21 download-and-run demonstration
-        if: matrix.python-version == '3.12'
-        run: python scripts/run_chr21_demo.py --out demo_output/chr21
-      - name: Import installed libraries outside the checkout
-        run: |
-          cd "$RUNNER_TEMP"
-          python -c 'import slotted_em, tracete, tracete_lm; print(slotted_em.__file__)'
 
   rust:
     runs-on: ubuntu-latest
