@@ -49,7 +49,7 @@ def verify_checksums(directory: Path, required: set[str] | None = None) -> int:
 
 
 def compare_tsv(actual: Path, expected: Path, numeric_columns: set[str], key_columns: tuple[str, ...]):
-    """Compare observed output with a frozen software expectation, not truth."""
+    """Compare labels exactly and floats using atol + rtol * abs(expected)."""
     def read(path):
         with path.open() as handle:
             reader = csv.DictReader(handle, delimiter='\t')
@@ -76,7 +76,7 @@ def compare_tsv(actual: Path, expected: Path, numeric_columns: set[str], key_col
                 continue
             if field in numeric_columns and a and b:
                 x, y = float(a), float(b)
-                if (math.isnan(x) and math.isnan(y)) or math.isclose(x, y, rel_tol=1e-5, abs_tol=1e-5):
+                if (math.isnan(x) and math.isnan(y)) or abs(x - y) <= 1e-5 + 1e-5 * abs(y):
                     continue
             raise ValueError(f'expected-output mismatch in {actual.name}, {key}, {field}: {a} != {b}')
     return len(got)

@@ -103,3 +103,13 @@ def test_default_runs_receive_distinct_timestamped_directories(demo, tmp_path, m
     for path in destinations:
         assert path.parent == tmp_path / 'demo_output'
         assert re.fullmatch(r'chr21_\d{8}_\d{6}_[0-9a-f]{6}', path.name)
+
+
+def test_comparison_combines_absolute_and_relative_float_tolerance(demo, tmp_path):
+    expected, actual = tmp_path / 'expected.tsv', tmp_path / 'actual.tsv'
+    expected.write_text('read_id\tmargin\tcall\nr1\t0.513699\tABSTAIN\n')
+    actual.write_text('read_id\tmargin\tcall\nr1\t0.513710\tABSTAIN\n')
+    assert demo.compare_tsv(actual, expected, {'margin'}, ('read_id',)) == 1
+    actual.write_text('read_id\tmargin\tcall\nr1\t0.52\tABSTAIN\n')
+    with pytest.raises(ValueError, match='mismatch'):
+        demo.compare_tsv(actual, expected, {'margin'}, ('read_id',))
