@@ -35,7 +35,21 @@ jobs:
           (cd assets && sha256sum -c SHA256SUMS)
           (cd examples && sha256sum -c SHA256SUMS)
       - name: Tests and complete synthetic CLI examples
-        run: python -m pytest tests -q
+        run: python -m pytest tests -q --junitxml="${{ runner.temp }}/tests.xml"
+      - name: Report test failures
+        if: failure()
+        run: |
+          python - <<'PYTEST_REPORT'
+          import os
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          report = Path(os.environ['RUNNER_TEMP']) / 'tests.xml'
+          if report.exists():
+              for case in ET.parse(report).getroot().iter('testcase'):
+                  for issue in list(case.findall('failure')) + list(case.findall('error')):
+                      text = case.get('name', '') + ': ' + (issue.text or issue.get('message', ''))[-3500:]
+                      print('::error::' + text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'))
+          PYTEST_REPORT
       - name: Real chr21 download-and-run demonstration
         if: matrix.python-version == '3.12'
         run: python scripts/run_chr21_demo.py --out demo_output/chr21
