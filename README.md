@@ -95,8 +95,6 @@ downstream analysis; read assignments are not UMI-deduplicated counts.
 
 ## 3. Example
 
-### 3.1 Real chr21 example: one command
-
 The supplied example contains the **full GRCh38 chr21 reference**
 (46,709,983 bases), 64,812 RepeatMasker annotation records and **12 real ONT
 reads** from public LongBench run [SRR30947478](https://www.ebi.ac.uk/ena/browser/view/SRR30947478).
@@ -127,21 +125,6 @@ and [expected output tables](examples/chr21/expected/).
 
 The example demonstrates read assignment on a small selected population;
 it should not be used to estimate accuracy or sample-wide expression.
-
-### 3.2 Minimal synthetic example
-
-A three-read artificial fixture is also included for a smaller installation check:
-
-```bash
-python scripts/assign_reads_m2d.py \
-    --bam examples/aln.bam --reads examples/reads.fa \
-    --rmsk examples/repeats.rmsk.txt --genome examples/reference.fa \
-    --ckpt assets/ckpt_step30000.pt \
-    --out demo_winners.tsv --receipt demo_receipt.json \
-    --flank 20 --device cpu --band-backend python --verify-exact
-
-diff -u examples/expected_winners.tsv demo_winners.tsv
-```
 
 ## 4. Output
 

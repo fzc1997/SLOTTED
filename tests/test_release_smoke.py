@@ -30,7 +30,15 @@ def test_public_commands_end_to_end(tmp_path):
     winner_path, receipt_path = tmp_path / 'winners.tsv', tmp_path / 'receipt.json'
     run('assign_reads_m2d.py', *inputs, '--ckpt', CHECKPOINT, '--out', winner_path,
         '--receipt', receipt_path, '--device', 'cpu', '--band-backend', 'python', '--verify-exact')
-    assert winner_path.read_text() == (ROOT / 'examples/expected_winners.tsv').read_text()
+    observed = pd.read_csv(winner_path, sep='\t')
+    expected = pd.read_csv(ROOT / 'examples/expected_winners.tsv', sep='\t')
+    assert observed.columns.tolist() == expected.columns.tolist()
+    # CPU kernels can differ in float32 low bits; identities stay exact.
+    discrete = ['read_id', 'n_candidates', 'winner_locus']
+    pd.testing.assert_frame_equal(observed[discrete], expected[discrete], check_exact=True)
+    numeric = ['winner_logit', 'margin']
+    pd.testing.assert_frame_equal(observed[numeric], expected[numeric],
+                                  check_exact=False, rtol=1e-5, atol=1e-5)
     receipt = json.loads(receipt_path.read_text())
     assert receipt['population']['reads_total'] == 3
     assert receipt['population']['reads_with_candidates'] == 2
