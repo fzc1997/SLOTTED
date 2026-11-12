@@ -1,0 +1,13 @@
+read_id	read_length	n_candidates	alignment_records	selection_stratum
+SRR30947478:100196918:0	942	2	1	multiple_candidates
+SRR30947478:101097960:0	571	0	1	no_candidate
+SRR30947478:101347821:0	734	2	1	multiple_candidates
+SRR30947478:101671438:0	289	1	1	single_candidate
+SRR30947478:101792529:0	730	2	1	multiple_candidates
+SRR30947478:102301458:0	251	0	1	no_candidate
+SRR30947478:102480095:0	682	0	1	no_candidate
+SRR30947478:102849257:0	294	1	1	single_candidate
+SRR30947478:102927321:0	516	2	1	multiple_candidates
+SRR30947478:103112130:0	228	0	1	no_candidate
+SRR30947478:10312667:0	216	1	1	single_candidate
+SRR30947478:103817343:0	720	1	1	single_candidate

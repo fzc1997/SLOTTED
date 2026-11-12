@@ -1,0 +1,3 @@
+read_id	n_candidates	winner_locus	winner_logit	margin
+read_multi	2	chrSynthetic:300-420:+:SynthTE2	-38.031319	0.396992
+read_single	1	chrSynthetic:100-220:+:SynthTE1	-29.150890	nan

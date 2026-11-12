@@ -1,0 +1,67 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12']
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install CPU dependencies and package
+        run: |
+          python -m pip install 'torch==2.8.0' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-demo.txt
+          python -m pip install '.[dev]'
+      - name: Check supplied assets
+        run: |
+          (cd assets && sha256sum -c SHA256SUMS)
+          (cd examples && sha256sum -c SHA256SUMS)
+      - name: Tests and complete synthetic CLI examples
+        run: python -m pytest tests -q
+      - name: Real chr21 download-and-run demonstration
+        if: matrix.python-version == '3.12'
+        run: python scripts/run_chr21_demo.py --out demo_output/chr21
+      - name: Import installed libraries outside the checkout
+        run: |
+          cd "$RUNNER_TEMP"
+          python -c 'import slotted_em, tracete, tracete_lm; print(slotted_em.__file__)'
+
+  rust:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install CPU dependencies and build tools
+        run: |
+          python -m pip install 'torch==2.8.0' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-demo.txt
+          python -m pip install '.[dev,rust,numba]'
+      - name: Build and test the native kernel
+        run: bash scripts/rebuild_rust_wheel.sh
+      - name: Native versus reference equality
+        run: python -m pytest tests/test_m2d_band_fast.py -q

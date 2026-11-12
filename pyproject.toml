@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slotted"
+version = "1.0.0"
+description = "SLOTTED: Single-cell/spatial Long-read Origin Tracing for Transposable-Element Disambiguation (CF+LM joint emission, whole-arm EM, post-EM guard; LM-only CLI retained)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = [
+    "numpy>=1.24",
+    "pysam>=0.21",
+    "torch>=2.6",
+    "pyarrow>=14",
+    "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+rust = ["maturin>=1.5,<2"]
+numba = ["numba>=0.59"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = ["slotted_em"]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["tracete*", "tracete_lm*"]

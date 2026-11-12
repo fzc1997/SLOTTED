@@ -1,0 +1,2 @@
+1	1000	0	0	0	chrSynthetic	100	220	-380	+	SynthTE1	LTR	SynthFamily
+2	1000	0	0	0	chrSynthetic	300	420	-180	+	SynthTE2	LTR	SynthFamily

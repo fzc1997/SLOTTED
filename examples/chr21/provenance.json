@@ -1,0 +1,79 @@
+{
+  "schema": "slotted.chr21_demo.v1",
+  "accession": "SRR30947478",
+  "source_url": "https://www.ebi.ac.uk/ena/browser/view/SRR30947478",
+  "reference_assembly": "GRCh38",
+  "reference_contig": "chr21",
+  "reference_bases": 46709983,
+  "reference_sequence_sha256_uppercase": "fb084b31fdcfe8dc301d2fc213ce6e430fa7509385317d16373c2eefd8e60ad7",
+  "registered_reference_sequence_match": true,
+  "source_files": {
+    "bam": {
+      "name": "alignment.secondary.qname.bam",
+      "bytes": 88990553,
+      "sha256": "b7957f769c241e6635cac5940871e0a71929318c3019c0a507cd597503cf8823"
+    },
+    "reads": {
+      "name": "nested_100000.fastq.gz",
+      "bytes": 69992695,
+      "sha256": "252fec230f957a34788841e332d21b36f3faafb0d2711e902a677d4540e09991"
+    },
+    "rmsk": {
+      "name": "rmsk.txt.gz",
+      "bytes": 153586506,
+      "sha256": "51a69060cf434e1c6700b3de20bfd2424f58a576c8575bdf02d21b1946874716"
+    }
+  },
+  "source_bam_read_groups": 100000,
+  "eligible_by_stratum": {
+    "no_candidate": 277,
+    "single_candidate": 132,
+    "multiple_candidates": 168
+  },
+  "rejection_counts": {
+    "not_exclusively_chr21": 99291,
+    "read_length_or_alphabet": 132
+  },
+  "repeat_records": 64812,
+  "selection_rule": "First 4 lexicographic read IDs per K=0, K=1 and 2<=K<=8 stratum; length 200..1200; all observed mappings and SA/XA targets on chr21; selected before SLOTTED scoring.",
+  "selected_read_count": 12,
+  "selected_alignment_records": 12,
+  "candidate_loci_by_read": {
+    "SRR30947478:100196918:0": [
+      "chr21:36867570-36867782:+:MLT1J1",
+      "chr21:36867850-36868165:+:AluSz"
+    ],
+    "SRR30947478:101097960:0": [],
+    "SRR30947478:101347821:0": [
+      "chr21:25928062-25928342:+:AluY",
+      "chr21:25928459-25928535:+:L1MC4"
+    ],
+    "SRR30947478:101671438:0": [
+      "chr21:45676762-45677062:-:AluSz6"
+    ],
+    "SRR30947478:101792529:0": [
+      "chr21:43725041-43725337:+:AluY",
+      "chr21:43725527-43725839:+:AluSx"
+    ],
+    "SRR30947478:102301458:0": [],
+    "SRR30947478:102480095:0": [],
+    "SRR30947478:102849257:0": [
+      "chr21:43916413-43916756:-:L1MEd"
+    ],
+    "SRR30947478:102927321:0": [
+      "chr21:17951951-17952223:+:AluJo",
+      "chr21:17952223-17952743:+:L1MEf"
+    ],
+    "SRR30947478:103112130:0": [],
+    "SRR30947478:10312667:0": [
+      "chr21:17568559-17568690:-:FLAM_C"
+    ],
+    "SRR30947478:103817343:0": [
+      "chr21:34112421-34112661:-:L1MB7"
+    ]
+  },
+  "population_limit": "A software demonstration selected from an existing 100,000-read pilot; not a representative chromosome or sample and not an accuracy benchmark.",
+  "alignment_limit": "Every alignment record of selected reads in the source BAM is retained. This preserves its observed candidate universe, not every theoretically possible genomic origin.",
+  "sequence_integrity": "Full forward sequences match the actual input FASTQ. No reads were simulated, truncated, corrected or sequence-edited.",
+  "coordinate_integrity": "Full chr21 reference, original genomic coordinates and CIGARs. Header restricted to chr21; private program commands omitted."
+}

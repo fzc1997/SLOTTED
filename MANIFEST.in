@@ -1,0 +1,9 @@
+include LICENSE README.md pyproject.toml requirements-demo.txt .gitignore .gitattributes
+recursive-include scripts *.py *.sh
+recursive-include tests *.py
+recursive-include examples *.fa *.fai *.bam *.bai *.txt *.tsv *.md *.json SHA256SUMS
+recursive-include assets *.json *.md SHA256SUMS
+recursive-include rust/m2d_bands Cargo.toml Cargo.lock *.rs
+recursive-include .github *.yml
+prune rust/m2d_bands/target
+global-exclude __pycache__ *.py[cod]

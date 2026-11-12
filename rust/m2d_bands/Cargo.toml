@@ -1,0 +1,22 @@
+[package]
+name = "m2d_bands"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "m2d_bands"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+pyo3 = "0.21"
+numpy = "0.21"
+
+[features]
+default = []
+# maturin builds with --features extension-module; plain `cargo test` links
+# without it so unit tests do not need libpython.
+extension-module = ["pyo3/extension-module"]
+
+[profile.release]
+opt-level = 3
+lto = "thin"

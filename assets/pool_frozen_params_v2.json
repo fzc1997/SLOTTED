@@ -1,0 +1,77 @@
+{
+  "beta0_closed_form": 5.703452,
+  "beta0_regression_diag": {
+    "closed_form_beta0": 5.7035,
+    "within_read_centered_slope": 8.2118
+  },
+  "code_rev": "deb465b",
+  "created": "2026-10-20T14:02:25",
+  "eps_uniform_floor": 0.02,
+  "fit_diagnostics": {
+    "n_dev_reads": 4000,
+    "n_dev_reads_K_ge2": 3120,
+    "rho_star": {
+      "median_true_seed_fraction": 0.172119,
+      "n_dev_reads": 3120
+    },
+    "t_cf_full": {
+      "n_dev_reads": 3120,
+      "nll_at_T": 0.025527,
+      "nll_at_T1": 0.025854
+    },
+    "t_innovation": {
+      "n_dev_reads": 3120,
+      "nll_at_T": 0.131636,
+      "nll_at_T1": 0.196484
+    },
+    "t_k31": {
+      "n_dev_reads": 3120,
+      "nll_at_T": 0.036178,
+      "nll_at_T1": 0.039762
+    },
+    "t_m2d": {
+      "n_dev_reads": 3120,
+      "nll_at_T": 0.042695,
+      "nll_at_T1": 0.042701
+    }
+  },
+  "provenance": {
+    "dev_m2d_logits_sha256": "4236ce3c787ba1e8634452c76f6ddbdcf85eeeeffb611aed6c5a2ca8c285079f",
+    "dev_reads_fasta_sha256": "d61115a415a70c5c56721220864140e1fb27d0d8234c8eedc0d45db0da8eb3d4",
+    "dev_receipt": "/gpfs/home/fuzc/project/scLong_repeat_detection/results/upgrade_v2/phaseD7/devpool_v2/devpool_receipt.json",
+    "dev_receipt_sha256": "d06d4b532b23d9e17bbb77c0e2e98ea978fce8c3a4e85f22ab06c19757f0e7fa",
+    "exclusion_list": "/gpfs/home/fuzc/project/scLong_repeat_detection/results/upgrade_v2/phaseD7/devpool_v2/exclusion_loci_v2.txt",
+    "exclusion_list_sha256": "e33f75867314a36f967ed63e86d13c0c347f27bbff4fce1cf354e4881eeebf3d",
+    "exclusion_zero_overlap_asserted": true,
+    "fitted_on": "devpool_v2 EXTERNAL dev simulation (results/upgrade_v2/phaseD7/devpool_v2): 4,000 reads over 200 loci, 50% plain ONT-iid + 50% synthetic donor-variant (SNP 1%, indel 0.2%, heterozygous half-reads), locus-disjoint (id AND +-500bp window) from the NanoSim bench, the NanoSim-HPRC benches, the CELLO human bench; CELLO mouse is mm10 (disjoint by genome). NO evaluation-bench read or locus was seen by the fit.",
+    "m2d_ckpt": "/gpfs/home/fuzc/project/scLong_repeat_detection/results/upgrade_v2/phaseD7/matrix2d_v1_work/train/ckpt_step30000.pt",
+    "supersedes": {
+      "file": "pool_frozen_params.json (v1)",
+      "v1_fitted_on": "NanoSim constructive bench dev half",
+      "v1_rho_star": 0.71639785,
+      "v1_temperatures": {
+        "cf_full": 6.343667,
+        "innovation_h": 0.840252,
+        "k31": 0.981577,
+        "m2d": 2.382543
+      },
+      "why": "PI verdict 2026-10-20: v1 was fitted on a dev half of the NanoSim bench -- an evaluation set. Parameters must not come from any evaluation set."
+    },
+    "unchanged_from_v1": [
+      "beta0 (closed form)",
+      "eps",
+      "weights rule",
+      "temperature search grid [0.1, 20] NLL",
+      "rho* estimator (median true seed fraction)"
+    ]
+  },
+  "rho_star": 0.17211899,
+  "schema": "tracete.pool_frozen_params.v2",
+  "temperatures": {
+    "cf_full": 2.013226,
+    "innovation_h": 19.999173,
+    "k31": 0.100004,
+    "m2d": 1.047676
+  },
+  "weights_rule": "w_k=0.50*q, w_m=0.35+0.25*(1-q), w_h=0.15+0.25*(1-q)"
+}
